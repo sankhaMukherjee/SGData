@@ -1,0 +1,12 @@
+<div style='float:left; width:200px'>
+    <button 
+        ng-click='disp=(disp?false:true); dispName=(disp?"hide "+v:"show "+v);'
+        ng-init='disp=false; dispName="show "+v'> {{dispName}} 
+    </button>
+
+    <div
+        ng-show='disp' 
+        ng-repeat='(key, value) in filterData[v]'>
+        <input type='checkbox' ng-model='filterData[v][key]'> {{key | lowercase }} 
+    </div>
+</div>

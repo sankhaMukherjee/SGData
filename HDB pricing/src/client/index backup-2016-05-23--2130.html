@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>This is a test</title>
+    <script type="text/javascript" src='jquery.min.js'></script>
+    <script type="text/javascript" src='angular.min.js'></script>
+    <script type="text/javascript" src='app.js'></script>
+    
+</head>
+
+<body ng-app='plotInfo'>
+
+<div ng-controller='plotInfoData' >
+
+    <get-filter-items data='filterData' v='"town"'></get-filter-items>
+    <get-filter-items data='filterData' v='"flat_type"'></get-filter-items>
+    <get-filter-items data='filterData' v='"flat_model"'></get-filter-items>
+    <br>
+    <hr>
+
+    <!-- Town  -->
+    <div style='float:left; width:200px'>
+        <button 
+            ng-click='dispTown=(dispTown?false:true); dispTownName=(dispTown?"hide flat_type":"show town");'
+            ng-init='dispTown=false; dispTownName="show town"'> {{dispTownName}} 
+        </button>
+
+        <div
+            ng-show='dispTown' 
+            ng-repeat='(key, value) in filterData["town"]'>
+            <input type='checkbox' ng-model='filterData["town"][key]'> {{key | lowercase }} 
+        </div>
+    </div>
+
+    <!-- flat type  -->
+    <div style='float:left; width:200px'>
+        <button 
+            ng-click='dispFlatType=(dispFlatType?false:true); dispFlatTypeName=(dispFlatType?"hide flat_type":"show flat_type");'
+            ng-init='dispFlatType=false; dispFlatTypeName="show flat_type"'> {{dispFlatTypeName}} 
+        </button>
+
+        <div
+            ng-show='dispFlatType' 
+            ng-repeat='(key, value) in filterData["flat_type"]'>
+            <input type='checkbox' ng-model='filterData["flat_type"][key]'> {{key | lowercase }} 
+        </div>
+    </div>
+
+    <!-- flat model  -->
+    <div style='float:left; width:200px'>
+        <button 
+            ng-click='dispFlatModel=(dispFlatModel?false:true); dispFlatModelName=(dispFlatModel?"hide flat_model":"show flat_model");'
+            ng-init='dispFlatModel=false; dispFlatModelName="show flat_model"'> {{dispFlatModelName}} 
+        </button>
+
+        <div
+            ng-show='dispFlatModel' 
+            ng-repeat='(key, value) in filterData["flat_model"]'>
+            <input type='checkbox' ng-model='filterData["flat_model"][key]'> {{key | lowercase }} 
+        </div>
+    </div>
+
+    <br style='clear:left;'>
+
+    <div>
+        x-label: <select ng-model='xColumn' ng-options='c for c in columns'></select> <br>
+        y-label: <select ng-model='yColumn' ng-options='c for c in columns'></select> <br>
+        groupBy: <select ng-model='groupBy' ng-options='c for c in columns.concat(["None"])'></select> <br>
+        aggFunction: <select ng-model='aggFunction' ng-options='c for c in ["mean", "median", "min", "max"]'></select> <br>
+    </div>
+
+
+    <p>{{columns}}</p>
+
+    
+
+    <!-- 
+    <p>
+        These are the actual values ...
+    </p>
+
+    <div ng-repeat='(k, v) in filterData'>
+        <h3>{{k | lowercase }}</h3>
+        <p ng-repeat='(kI, vI) in v'>
+            {{kI | lowercase}} : {{vI}}
+        </p>
+    </div> -->
+
+
+</div>
+
+</body>
+</html>
+
