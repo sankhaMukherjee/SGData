@@ -1,0 +1,12 @@
+Information on the data:
+
+The following files should be downloaded into this folder:
+
+ 1. resale-flat-prices-based-on-approval-date-2000-feb-2012.csv
+ 2. resale-flat-prices-based-on-registration-date-from-march-2012-onwards.csv
+
+Both these files may be obtained from the following site: https://data.gov.sg/dataset/resale-flat-prices
+
+There is no need for any web scrapping at the moment. Just download the files in this folder and you will be good. 
+
+
