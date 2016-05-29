@@ -2,38 +2,68 @@
 <html>
 <head>
     <title>This is a test</title>
-    <script type="text/javascript" src='jquery.min.js'></script>
-    <script type="text/javascript" src='angular.min.js'></script>
-    <script type="text/javascript" src='app.js'></script>
-    <script type="text/javascript" src='plotly.min.js'></script>
+    <link rel="stylesheet" href="static/css/myTest.css">
+    <link rel="stylesheet" href="static/css/angular.rangeSlider.css">
+    <script type="text/javascript" src='static/js/jquery.min.js'></script>
+    <script type="text/javascript" src='static/js/angular.min.js'></script>
+    <script type="text/javascript" src='static/js/angular.rangeSlider.js'></script>
+    <script type="text/javascript" src='static/js/app-RS.js'></script>
+    <script type="text/javascript" src='static/js/plotly.min.js'></script>
     
 </head>
 
-<body ng-app='plotInfo'>
+<body ng-app='plotInfo' id='wrapper'>
+
+<h1>HDB Data Explorer</h1>
 
 <div ng-controller='plotInfoData' >
 
-    <get-filter-items data='filterData' v='"town"'></get-filter-items>
-    <get-filter-items data='filterData' v='"flat_type"'></get-filter-items>
-    <get-filter-items data='filterData' v='"flat_model"'></get-filter-items>
-    <br style='clear:left;'>
-    <hr>
 
-    <div>
-        x-label: <select ng-model='xColumn' ng-options='c for c in columns'></select> 
-        y-label: <select ng-model='yColumn' ng-options='c for c in columns'></select> 
-        groupBy: <select ng-model='groupBy' ng-options='c for c in columns.concat(["None"])'></select> <br>
-        groupByInternal: <select ng-model='groupByI'    ng-options='c for c in columns.concat(["None"])'></select> 
-        aggFunction:     <select ng-model='aggFunction' ng-options='c for c in ["mean", "median", "min", "max"]'></select> <br>
+    <div id='middle'>
+
+    <get-filter-items data='filterData' v='"town"'      > </get-filter-items>
+    <get-filter-items data='filterData' v='"flat_type"' > </get-filter-items>
+    <get-filter-items data='filterData' v='"flat_model"'> </get-filter-items>
+    
+    <br style='clear:left;'>
+    
+    </div>
+    
+
+    <hr>
+    <!-- <br style='clear:left;'> -->
+
+    <div id='middle'>
+        x-label:      <select ng-model='xColumn'     ng-options='c for c in columns'>                          </select> 
+        y-label:      <select ng-model='yColumn'     ng-options='c for c in columns'>                          </select> 
+        groupBy:      <select ng-model='groupBy'     ng-options='c for c in columns.concat(["None"])'>         </select> <br>
+
+        groupByInner: <select ng-model='groupByI'    ng-options='c for c in columns.concat(["None"])'>         </select> 
+        aggFunction:  <select ng-model='aggFunction' ng-options='c for c in ["mean", "median", "min", "max"]'> </select> 
+        plotType:     <select ng-model='plotType'    ng-options='c for c in ["scatter", "box"]'>               </select> <br>
     </div>
 
+    <hr>
+
+    <div id='middle'>
+        <div style='float: left;' >{{ monthData[minValCurrent] }}</div>
+        <div style='float: right;' >{{ monthData[maxValCurrent] }}</div>
+        <br style='clear:left;'>
+        <div  range-slider min='minVal' max='maxVal' model-min='minValCurrent' model-max='maxValCurrent'></div>
+    </div>
+    <hr>
 
     <button ng-click='generatePostData()'> Plot Data </button>
 
-    <div id='plot' style='height: 300px; width: 600px; border: 3px solid black;'>
-        <!-- <scatter-plot data='data' width=600 height=300 ></scatter-plot> -->
-        <scatter-plot width=600 height=300 ></scatter-plot>
+    <div id='plot' >
+        <scatter-plot width=880 height=500 ></scatter-plot>
     </div>
+
+    <div>
+        {{data}}
+    </div>
+
+
 
 
 </div>

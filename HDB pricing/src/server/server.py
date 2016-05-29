@@ -98,6 +98,8 @@ def rawData():
     # Lets start by filtering the data ...
     temp = [ data[v2].isin(postdata[v1]) for (v1, v2) in zip(['flatTypeFilter', 'flatModelFilter', 'townFilter'], 
                                                              ['flat_type',      'flat_model',      'town']) ]
+    temp += [ data.month >= postdata['minDate'] ]
+    temp += [ data.month <= postdata['maxDate'] ]
     rows = reduce(lambda m, n: m & n, temp)
     cols = [postdata[c] for c in ['x', 'y', 'gBy', 'gByI'] if (postdata[c] is not None) and (postdata[c] != 'None') ]
     cols = [c  for c in list(set(cols)) if 'None' != c ]
@@ -126,10 +128,12 @@ def rawData():
             print dfTemp.head()
 
             # We want a further agg here ...
-            if (postdata['gByI'] is not None) and ('None' not in postdata['gByI']):
-                filtList[k] =  dfTemp.groupby( postdata['gByI'] ).agg(  functions[postdata['agg']] ).reset_index()  
+            if (postdata['gByI'] is not None)   and \
+               ('None' not in postdata['gByI']) and \
+               ('scatter' in postdata['type']):
+                filtList[k.lower()] =  dfTemp.groupby( postdata['gByI'] ).agg(  functions[postdata['agg']] ).reset_index()  
             else:
-                filtList[k] =  dfTemp 
+                filtList[k.lower()] =  dfTemp 
 
     else:
         filtList['all'] = filtData
@@ -151,20 +155,16 @@ def rawData():
 
         tempDict = dictizeDf(filtList[l][ [ 'x', 'y' ] ])
         tempDict['name'] = l
-        # tempDict['type'] = 'scatter'
+        tempDict['type'] = postdata['type']
         # tempDict['mode'] = 'markers'
-        # tempDict['xaxis'] = { 'title': postdata['x'] }
-        # tempDict['yaxis'] = { 'title': postdata['y'] }
-
+        
         toReturn.append( json.dumps( tempDict )   )
 
     toReturn = '[%s]'%( ','.join(toReturn) )
-    # toReturn = toReturn.replace( postdata['x'] , 'x').replace( postdata['y'] , 'y')
     print toReturn
 
-    # toReturn = '''[{"x":[1,2,20,10],"y":[10,15,13,17],"mode":"markers","type":"scatter"},{"x":[2,3,4,5],"y":[16,5,11,9],"mode":"lines","type":"scatter"},{"x":[1,2,3,4],"y":[12,9,15,12],"mode":"lines+markers","type":"scatter"}]'''
-
     return toReturn
+
 
 @app.route('/data/raw', method='OPTIONS')
 @enable_cors

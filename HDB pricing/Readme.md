@@ -6,7 +6,7 @@ This is a set of programs useful for exploration of the housing data. The `src` 
 
     https://data.gov.sg/dataset/resale-flat-prices. 
 
-Please note the information about liabilities of using the Licence section.
+Please note the information about liabilities of using the License section.
 
 # Synopsis
 
